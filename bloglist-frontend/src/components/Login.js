@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react"
+import BlogForm from './BlogForm.js'
 import service from '../services/blogs'
 
 const Login = () => {
@@ -10,7 +11,7 @@ const Login = () => {
         const user = window.localStorage.getItem('user')	
         if (user) setUser(JSON.parse(user))
     }
-    useEffect( loadUser, [])
+    useEffect(loadUser, [])
 
     const handleLogin = async (event) => {
         event.preventDefault()
@@ -43,6 +44,7 @@ const Login = () => {
         <div> 
             Welcome {user.name} !
             <button onClick={handeLogout}> logout </button>
+            <BlogForm token= {user.token}/>
         </div>
 
     )
