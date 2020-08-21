@@ -32,7 +32,7 @@ const postBlog = async ({title, url, author}, token) => {
 
     let res = null
     try{
-        res = await axios.post('/api/blogs', {title, url, author, config} )
+        res = await axios.post('/api/blogs', {title, url, author }, config )
     }catch(error){
         res = error.response
     }

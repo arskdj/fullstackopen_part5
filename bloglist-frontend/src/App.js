@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login'
-import Notification from './components/Notification.js'
+import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 
 
@@ -24,6 +25,7 @@ const App = () => {
     <div>
         <Notification msg={notification}/>
         <h2>login</h2>
+        
         <Login setNotification= {setNotification}/>
 
       <h2>blogs</h2>

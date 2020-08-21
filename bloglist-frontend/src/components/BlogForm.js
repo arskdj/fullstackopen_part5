@@ -19,6 +19,7 @@ const BlogForm = ({token, setNotification}) => {
 
     return (
         <div>
+            <h1> new blog details</h1>
             <form onSubmit={handleSubmit} >
                 <div> title 
                     <input value={title} onChange={({target}) => setTitle(target.value) } />
@@ -29,7 +30,7 @@ const BlogForm = ({token, setNotification}) => {
                <div> author
                     <input value={author} onChange={({target}) => setAuthor(target.value) } />
                </div> 
-                <button type="submit"> add blog</button>
+                <button type="submit"> submit </button>
             </form>
         </div>
     )

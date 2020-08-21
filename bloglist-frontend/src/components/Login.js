@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react"
 import BlogForm from './BlogForm.js'
+import Togglable from './Togglable.js'
 import service from '../services/blogs'
 
 const Login = ({setNotification}) => {
@@ -49,7 +50,9 @@ const Login = ({setNotification}) => {
         <div> 
             Welcome {user.name} !
             <button onClick={handeLogout}> logout </button>
+            <Togglable buttonName='add blog'>
             <BlogForm token= {user.token} setNotification= {setNotification}/>
+            </Togglable>
         </div>
 
     )
