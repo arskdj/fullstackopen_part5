@@ -1,26 +1,18 @@
 import React, { useState } from 'react'
-import service from '../services/blogs'
 
-const BlogForm = ({token, setNotification}) => {
+const BlogForm = ({createBlog}) => {
     const [title, setTitle] = useState('newtitle')
     const [url, setUrl] = useState('newurl')
     const [author, setAuthor] = useState('newauthor')
 
-    const handleSubmit = async (event) => {
+    const addBlog = (event) => {
         event.preventDefault()
-        console.log('handleSubmit')
-        const blog = await service.postBlog({title, url, author}, token)
-        if (blog.error){
-            setNotification('!e' + blog.error)
-        }else{
-            setNotification(`blog added "${blog.title}" by "${blog.author}"`)
-        }
+        createBlog({title, url, author})
     }
 
     return (
         <div>
-            <h1> new blog details</h1>
-            <form onSubmit={handleSubmit} >
+            <form onSubmit={addBlog} >
                 <div> title 
                     <input value={title} onChange={({target}) => setTitle(target.value) } />
                 </div>
@@ -33,6 +25,7 @@ const BlogForm = ({token, setNotification}) => {
                 <button type="submit"> submit </button>
             </form>
         </div>
-    )
+    )    
+
 }
 export default BlogForm

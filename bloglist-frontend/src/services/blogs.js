@@ -11,18 +11,6 @@ const getAll = async () => {
     return res.data
 }
 
-const login = async ({username, password}) => {
-    console.log('login service')
-
-    let res = null
-    try {
-        res = await axios.post('/api/login', {username, password})
-    }catch(error){
-       return error.response.data
-    }
-
-    return res.data.token
-}
 
 const postBlog = async ({title, url, author}, token) => {
 
@@ -40,4 +28,4 @@ const postBlog = async ({title, url, author}, token) => {
     return res.data
 }
 
-export default { getAll, login, postBlog}
+export default { getAll, postBlog}
