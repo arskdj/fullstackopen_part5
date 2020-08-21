@@ -6,10 +6,22 @@ const Login = () => {
     const [password, setPassword] = useState('1234')
     const [user, setUser] = useState(null)
 
+    const loadUser = () => {
+        const user = window.localStorage.getItem('user')	
+        if (user) setUser(JSON.parse(user))
+    }
+    useEffect( loadUser, [])
+
     const handleLogin = async (event) => {
         event.preventDefault()
         const user = await service.login({username, password})
+        window.localStorage.setItem('user', JSON.stringify(user))
         setUser(user)
+    }
+
+    const handeLogout = () => {
+        window.localStorage.removeItem('user')
+        setUser(null)
     }
 
     const renderForm = () => (
@@ -30,6 +42,7 @@ const Login = () => {
     const renderLoggedIn = () => (
         <div> 
             Welcome {user.name} !
+            <button onClick={handeLogout}> logout </button>
         </div>
 
     )
