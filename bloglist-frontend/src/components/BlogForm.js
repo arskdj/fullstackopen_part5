@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import service from '../services/blogs'
 
-const BlogForm = ({token}) => {
+const BlogForm = ({token, setNotification}) => {
     const [title, setTitle] = useState('newtitle')
     const [url, setUrl] = useState('newurl')
     const [author, setAuthor] = useState('newauthor')
@@ -10,7 +10,11 @@ const BlogForm = ({token}) => {
         event.preventDefault()
         console.log('handleSubmit')
         const blog = await service.postBlog({title, url, author}, token)
-        alert('blog added', blog)
+        if (blog.error){
+            setNotification('!e' + blog.error)
+        }else{
+            setNotification(`blog added "${blog.title}" by "${blog.author}"`)
+        }
     }
 
     return (

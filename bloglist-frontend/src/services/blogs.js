@@ -2,24 +2,41 @@ import axios from 'axios'
 const baseUrl = '/api/blogs'
 
 const getAll = async () => {
-    const res = await axios.get(baseUrl)
+    let res = null
+    try {
+        res = await axios.get(baseUrl)
+    }catch(error){
+        res = error.response
+    }
     return res.data
 }
 
 const login = async ({username, password}) => {
     console.log('login service')
-    const res = await axios.post('/api/login', {username, password})
+
+    let res = null
+    try {
+        res = await axios.post('/api/login', {username, password})
+    }catch(error){
+       return error.response.data
+    }
+
     return res.data.token
 }
 
 const postBlog = async ({title, url, author}, token) => {
-    console.log('postBlog')
 
     const config = {
         headers: { Authorization: `bearer ${token}` },
     }
 
-    const res = await axios.post('/api/blogs', {title, url, author}, config)
+    let res = null
+    try{
+        res = await axios.post('/api/blogs', {title, url, author, config} )
+    }catch(error){
+        res = error.response
+    }
+
     return res.data
 }
 
