@@ -14,11 +14,11 @@ const App = () => {
     const [user, setUser] = useState(null)
     const blogFormRef = useRef()
 
-    useEffect(() => {
-        blogService.getAll().then(blogs =>
-            setBlogs( blogs )
-        )  
-    }, [])
+    const fetchBlogs = async () => {
+        const blogs = await blogService.getAll()
+        setBlogs(blogs)
+    }
+    useEffect(fetchBlogs, [])
 
     const notificationHook = () => {
         setTimeout( () => setNotification(null), 5000)
@@ -57,6 +57,28 @@ const App = () => {
         }
     }
 
+    const likeBlog = async (blog) => {
+        console.log('app.js',blog)
+        const updatedBlog =  await blogService.likeBlog(blog)
+        if (updatedBlog.error){
+            setNotification('!e'+updatedBlog.error)
+        } else {
+            blog.likes = updatedBlog.likes
+            return updatedBlog.likes
+        }
+    }
+
+    const deleteBlog = async (blog) => {
+        console.log('app.js',blog)
+        const removed = await blogService.deleteBlog(blog.id, user.token)
+        console.log(removed)
+        if (removed.error){
+            setNotification('!e'+removed.error)
+        } else {
+            setNotification(`${removed.title} deleted`)
+            fetchBlogs()
+        }
+    }
 
     const showLoggedInMsg = () => (
         <div> 
@@ -79,6 +101,7 @@ const App = () => {
         </Togglable>
     )
 
+
     return (
         <div>
             <Notification msg={notification}/>
@@ -89,7 +112,7 @@ const App = () => {
 
             <h2>blogs</h2>
             {blogs.sort((a,b) => b.likes - a.likes).map(blog =>
-            <Blog key={blog.id} blog={blog} setNotification= {setNotification} />
+            <Blog key={blog.id} blog={blog} likeBlog= {likeBlog} deleteBlog= {deleteBlog} user= {user}/>
             )}
 
         </div>

@@ -2,7 +2,8 @@ import React, {useState} from 'react'
 import blogService from '../services/blogs'
 
 
-const Blog = ({ blog, setNotification }) => {
+const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
+    console.log('inblog',blog)
     const [likes, setLikes] = useState(blog.likes)
     const blogStyle = {
         paddingTop: 10,
@@ -19,21 +20,24 @@ const Blog = ({ blog, setNotification }) => {
         setShow(!show)
     }
 
-    const incLikes = async () => {
-        console.log('incLikes',blog)
-        const updatedBlog =  await blogService.likeBlog(blog)
-        if (updatedBlog.error){
-            setNotification('!e'+updatedBlog.error)
-        } else {
-            setLikes(updatedBlog.likes)
-            blog.likes = updatedBlog.likes
-        }
+    const likeHandler = async () => {
+        const likes = await likeBlog(blog)
+        setLikes(likes)
+    }
+
+    const deleteHandler = async () => {
+       window.confirm(`Are you sure you want to delete ${blog.title} ?`) &&
+       await deleteBlog(blog)
+    }
+
+    const showDeleteButton = () => {
+        return  (<button onClick={deleteHandler}> delete </button>)
     }
 
     const blogDetails = () => (
         <div>
             <p> { blog.url } </p>
-            <p> { likes } <button onClick={incLikes}> like </button></p>
+            <p> { likes } <button onClick={likeHandler}> likeBlog </button></p>
             <p> { blog.author } </p>
         </div>
     )
@@ -42,6 +46,7 @@ const Blog = ({ blog, setNotification }) => {
         <div style={blogStyle}>
             {blog.title}
             <button onClick={toggleDetails}> {buttonName} </button>
+            {user && blog.user &&  user.username == blog.user.username && showDeleteButton()}
             {show && blogDetails()}
         </div>
     )
