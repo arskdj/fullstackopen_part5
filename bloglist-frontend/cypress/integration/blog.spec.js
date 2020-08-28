@@ -1,3 +1,5 @@
+const { _ } = Cypress 
+
 describe('Blog app', function() {
     const user =  {'_id':'5f3d623f14cfa280f05328de','name':'mario','blogs':['5a422a851b54a676234d17f7'],'username':'some1','password':'$2b$15$Yq.wgv7tJ0czSGZU6vOKDevQst1xNuOnA.OUNf8HSakkSAv7RVvvu','__v':0}
 
@@ -77,10 +79,10 @@ describe('Blog app', function() {
         
         it('User can like a blog', function() {
             cy.contains('view').click()
-            cy.get('#likes').then(($likes) => {
+            cy.get('.likes').then(($likes) => {
                 const count = parseInt($likes.text())
 
-                cy.contains('like').click()
+                cy.get('.likeButton').click()
 
                 const newCount = parseInt($likes.text()) + 1
                 
@@ -90,12 +92,31 @@ describe('Blog app', function() {
         })
 
         
-        it.only('User can delete a blog', function() {
+        it('User can delete a blog', function() {
             cy.contains('React patterns by Michael Chan').parent()
                 .contains('delete').click()
+
             cy.get('#notification')
                 .should('contain', 'React patterns deleted')
                 .should('have.css', 'color','rgb(0, 128, 0)')
+        })
+        
+        
+        it.only('Blogs are sorted', function() {
+            cy.get('.showBlog') .each(b => 
+                cy.wrap(b).click())
+
+            const toStrings = elements => _.map(elements, 'textContent')
+            const toNumbers = strings => _.map(strings, Number)
+
+            cy.get('.likes')
+                .then(toStrings)
+                .then(toNumbers)
+                .then(likes => {
+                    const sorted = _.orderBy(likes, 'desc')
+                    expect(likes).to.deep.equal(sorted)
+            })
+            
         })
 
     })
