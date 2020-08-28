@@ -1,22 +1,35 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 import App from '../App'
 
 test('renders content', () => {
-  const blog = {
-      title: 'test title',
-      url: 'test url',
-      author : 'test author'
-  }
+    const blog = {
+        title: 'test title',
+        url: 'test url',
+        author : 'test author',
+        likes : '1111'
 
-  const component = render(
-    <Blog blog={blog} />
-  )
+    }
 
-  expect(component.container).toHaveTextContent(
-    `${blog.title} by ${blog.author}`
-  )
+    const component = render(
+        <Blog blog={blog} />
+    )
+
+    
+
+    const button = component.getByText('view')
+    fireEvent.click(button)
+    expect(button).toHaveTextContent('hide')
+
+    const title = component.container.querySelector('#title')
+    const url = component.container.querySelector('#url')
+    const likes = component.container.querySelector('#likes')
+
+    expect(title).toHaveTextContent(`${blog.title} by ${blog.author}`)
+    expect(url).toHaveTextContent(blog.url)
+    expect(likes).toHaveTextContent(blog.likes)
+
 
 })
