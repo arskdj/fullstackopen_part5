@@ -81,7 +81,7 @@ const App = () => {
   }
 
   const showLoggedInMsg = () => (
-    <div>
+    <div id='welcome'>
             Welcome {user.name} !
       <button onClick={logout}> logout </button>
     </div>
