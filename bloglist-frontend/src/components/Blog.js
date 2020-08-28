@@ -6,12 +6,11 @@ const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
 
   Blog.propTypes = {
     blog: PropTypes.object.isRequired,
-    likeBlog : PropTypes.func.isRequired,
-    deleteBlog : PropTypes.func.isRequired,
-    user : PropTypes.object.isRequired
+    likeBlog : PropTypes.func,
+    deleteBlog : PropTypes.func,
+    user : PropTypes.object
   }
 
-  console.log('inblog',blog)
   const [likes, setLikes] = useState(blog.likes)
   const blogStyle = {
     paddingTop: 10,
@@ -46,13 +45,12 @@ const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
     <div>
       <p> { blog.url } </p>
       <p> { likes } <button onClick={likeHandler}> like </button></p>
-      <p> { blog.author } </p>
     </div>
   )
 
   return (
     <div style={blogStyle}>
-      {blog.title}
+      {`${blog.title} by ${blog.author}`}
       <button onClick={toggleDetails}> {buttonName} </button>
       {user && blog.user &&  user.username === blog.user.username && showDeleteButton()}
       {show && blogDetails()}
