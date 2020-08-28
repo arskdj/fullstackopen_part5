@@ -75,7 +75,7 @@ describe('Blog app', function() {
         })
 
         
-        it.only('User can like a blog', function() {
+        it('User can like a blog', function() {
             cy.contains('view').click()
             cy.get('#likes').then(($likes) => {
                 const count = parseInt($likes.text())
@@ -87,6 +87,15 @@ describe('Blog app', function() {
                 expect(count + 1).to.eq(newCount)
             })
             
+        })
+
+        
+        it.only('User can delete a blog', function() {
+            cy.contains('React patterns by Michael Chan').parent()
+                .contains('delete').click()
+            cy.get('#notification')
+                .should('contain', 'React patterns deleted')
+                .should('have.css', 'color','rgb(0, 128, 0)')
         })
 
     })
