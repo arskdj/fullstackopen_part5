@@ -74,6 +74,21 @@ describe('Blog app', function() {
             cy.contains(`${newBlog.title} by ${newBlog.author}`)
         })
 
+        
+        it.only('User can like a blog', function() {
+            cy.contains('view').click()
+            cy.get('#likes').then(($likes) => {
+                const count = parseInt($likes.text())
+
+                cy.contains('like').click()
+
+                const newCount = parseInt($likes.text()) + 1
+                
+                expect(count + 1).to.eq(newCount)
+            })
+            
+        })
+
     })
 
 })
