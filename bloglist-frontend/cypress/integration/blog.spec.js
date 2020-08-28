@@ -21,9 +21,9 @@ describe('Blog app', function() {
     describe('Login', function(){
         it('succeeds with correct credentials', function() {
             cy.get('#username').type(user.username)
-            cy.get('#password').type(user.password)
+            cy.get('#password').type('1234')
             cy.get('#login-button').click()
-            cy.get('#welcome').contains('Welcome user !')
+            cy.get('#welcome').should('have.text', `Welcome ${user.name} ! logout `)
         })
 
 
@@ -46,7 +46,7 @@ describe('Blog app', function() {
 
 
 
-    describe.only('When logged in', function() {
+    describe('When logged in', function() {
         beforeEach(function() {
             //login
             cy.request('POST', 'http://localhost:3000/api/login', {username:user.username, password:'1234'})
@@ -102,7 +102,7 @@ describe('Blog app', function() {
         })
         
         
-        it.only('Blogs are sorted', function() {
+        it('Blogs are sorted', function() {
             cy.get('.showBlog') .each(b => 
                 cy.wrap(b).click())
 

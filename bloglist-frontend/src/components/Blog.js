@@ -44,14 +44,17 @@ const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
     const blogDetails = () => (
         <div>
             <p id="url"> { blog.url } </p>
-            <p id="likes">  { likes } <button id="likeButton" onClick={likeHandler}> like </button></p>
+            <p>
+                <span className="likes">  { likes } </span> 
+                <button className="likeButton" onClick={likeHandler}> like </button>
+            </p>
         </div>
     )
 
     return (
         <div style={blogStyle}>
             <p id="title"> {`${blog.title} by ${blog.author}`}</p>
-            <button onClick={toggleDetails}> {buttonName} </button>
+            <button className='showBlog' onClick={toggleDetails}> {buttonName} </button>
             {user && blog.user &&  user.username === blog.user.username && showDeleteButton()}
             {show && blogDetails()}
         </div>
